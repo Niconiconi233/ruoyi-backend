@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.epms.mapper.PenaltyInformationMapper">
+    
+    <resultMap type="PenaltyInformation" id="PenaltyInformationResult">
+        <result property="id"    column="id"    />
+        <result property="staffId"    column="staff_id"    />
+        <result property="edcuation"    column="edcuation"    />
+        <result property="politicalStatus"    column="political_status"    />
+        <result property="punishmentAgency"    column="punishment_agency"    />
+        <result property="institutionName"    column="institution_name"    />
+        <result property="institutionalLevel"    column="institutional_level"    />
+        <result property="department"    column="department"    />
+        <result property="post"    column="post"    />
+        <result property="qualifications"    column="qualifications"    />
+        <result property="fileNo"    column="file_no"    />
+        <result property="workTime"    column="work_time"    />
+        <result property="fact"    column="fact"    />
+        <result property="basis"    column="basis"    />
+    </resultMap>
+
+    <resultMap id="PenaltyInformationVoResult" type="PenaltyInformationVO">
+        <result property="id" column="id"   />
+        <result property="staffId" column="staff_id"    />
+        <result property="staffName" column="staff_name"     />
+        <result property="edcuation" column="edcuation"     />
+        <result property="politicalStatus"    column="political_status"    />
+        <result property="punishmentAgency"    column="punishment_agency"    />
+        <result property="institutionName"    column="institution_name"    />
+    </resultMap>
+
+    <sql id="selectPenaltyInformationVo">
+        select id, staff_id, edcuation, political_status, punishment_agency, institution_name, institutional_level, department, post, qualifications, file_no, work_time, fact, basis from penalty_information
+    </sql>
+
+    <select id="selectPenaltyInformationList" parameterType="PenaltyInformation" resultMap="PenaltyInformationResult">
+        <include refid="selectPenaltyInformationVo"/>
+        <where>  
+            <if test="staffId != null "> and staff_id = #{staffId}</if>
+            <if test="punishmentAgency != null "> and punishment_agency = #{punishmentAgency}</if>
+        </where>
+    </select>
+
+    <select id="selectPenaltyInformationVoList" parameterType="PenaltyInformation" resultMap="PenaltyInformationVoResult">
+        select p.id, p.staff_id, s.name as staff_name, p.edcuation, p.political_status, p.punishment_agency, p.institution_name
+        from penalty_information as p
+        left join staff_info as s
+        on p.staff_id = s.id
+        where 1 = 1
+        <where>
+            <if test="staffId != null " >and staff_id = #{staffId}</if>
+            <if test="punishmentAgency != null" >and punishment_agency = #{punishmentAgency}</if>
+        </where>
+    </select>
+    
+    <select id="selectPenaltyInformationById" parameterType="Long" resultMap="PenaltyInformationResult">
+        <include refid="selectPenaltyInformationVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertPenaltyInformation" parameterType="PenaltyInformation" useGeneratedKeys="true" keyProperty="id">
+        insert into penalty_information
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="staffId != null">staff_id,</if>
+            <if test="edcuation != null">edcuation,</if>
+            <if test="politicalStatus != null">political_status,</if>
+            <if test="punishmentAgency != null">punishment_agency,</if>
+            <if test="institutionName != null and institutionName != ''">institution_name,</if>
+            <if test="institutionalLevel != null">institutional_level,</if>
+            <if test="department != null and department != ''">department,</if>
+            <if test="post != null and post != ''">post,</if>
+            <if test="qualifications != null">qualifications,</if>
+            <if test="fileNo != null">file_no,</if>
+            <if test="workTime != null">work_time,</if>
+            <if test="fact != null and fact != ''">fact,</if>
+            <if test="basis != null and basis != ''">basis,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="staffId != null">#{staffId},</if>
+            <if test="edcuation != null">#{edcuation},</if>
+            <if test="politicalStatus != null">#{politicalStatus},</if>
+            <if test="punishmentAgency != null">#{punishmentAgency},</if>
+            <if test="institutionName != null and institutionName != ''">#{institutionName},</if>
+            <if test="institutionalLevel != null">#{institutionalLevel},</if>
+            <if test="department != null and department != ''">#{department},</if>
+            <if test="post != null and post != ''">#{post},</if>
+            <if test="qualifications != null">#{qualifications},</if>
+            <if test="fileNo != null">#{fileNo},</if>
+            <if test="workTime != null">#{workTime},</if>
+            <if test="fact != null and fact != ''">#{fact},</if>
+            <if test="basis != null and basis != ''">#{basis},</if>
+         </trim>
+    </insert>
+
+    <update id="updatePenaltyInformation" parameterType="PenaltyInformation">
+        update penalty_information
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="staffId != null">staff_id = #{staffId},</if>
+            <if test="edcuation != null">edcuation = #{edcuation},</if>
+            <if test="politicalStatus != null">political_status = #{politicalStatus},</if>
+            <if test="punishmentAgency != null">punishment_agency = #{punishmentAgency},</if>
+            <if test="institutionName != null and institutionName != ''">institution_name = #{institutionName},</if>
+            <if test="institutionalLevel != null">institutional_level = #{institutionalLevel},</if>
+            <if test="department != null and department != ''">department = #{department},</if>
+            <if test="post != null and post != ''">post = #{post},</if>
+            <if test="qualifications != null">qualifications = #{qualifications},</if>
+            <if test="fileNo != null">file_no = #{fileNo},</if>
+            <if test="workTime != null">work_time = #{workTime},</if>
+            <if test="fact != null and fact != ''">fact = #{fact},</if>
+            <if test="basis != null and basis != ''">basis = #{basis},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deletePenaltyInformationById" parameterType="Long">
+        delete from penalty_information where id = #{id}
+    </delete>
+
+    <delete id="deletePenaltyInformationByIds" parameterType="String">
+        delete from penalty_information where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

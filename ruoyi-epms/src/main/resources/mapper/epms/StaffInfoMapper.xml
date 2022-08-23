@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.epms.mapper.StaffInfoMapper">
+    
+    <resultMap type="StaffInfo" id="StaffInfoResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="sex"    column="sex"    />
+        <result property="idCard"    column="id_card"    />
+        <result property="birthday"    column="birthday"    />
+        <result property="corp"    column="corp"    />
+        <result property="infoUrl"    column="info_url"    />
+    </resultMap>
+
+    <sql id="selectStaffInfoVo">
+        select id, name, sex, id_card, birthday, corp, info_url from staff_info
+    </sql>
+
+    <select id="selectStaffInfoList" parameterType="StaffInfo" resultMap="StaffInfoResult">
+        <include refid="selectStaffInfoVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="idCard != null  and idCard != ''"> and id_card = #{idCard}</if>
+            <if test="corp != null "> and corp = #{corp}</if>
+        </where>
+    </select>
+    
+    <select id="selectStaffInfoById" parameterType="Long" resultMap="StaffInfoResult">
+        <include refid="selectStaffInfoVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertStaffInfo" parameterType="StaffInfo" useGeneratedKeys="true" keyProperty="id">
+        insert into staff_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null and name != ''">name,</if>
+            <if test="sex != null">sex,</if>
+            <if test="idCard != null and idCard != ''">id_card,</if>
+            <if test="birthday != null">birthday,</if>
+            <if test="corp != null">corp,</if>
+            <if test="infoUrl != null">info_url,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="sex != null">#{sex},</if>
+            <if test="idCard != null and idCard != ''">#{idCard},</if>
+            <if test="birthday != null">#{birthday},</if>
+            <if test="corp != null">#{corp},</if>
+            <if test="infoUrl != null">#{infoUrl},</if>
+         </trim>
+    </insert>
+
+    <update id="updateStaffInfo" parameterType="StaffInfo">
+        update staff_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="sex != null">sex = #{sex},</if>
+            <if test="idCard != null and idCard != ''">id_card = #{idCard},</if>
+            <if test="birthday != null">birthday = #{birthday},</if>
+            <if test="corp != null">corp = #{corp},</if>
+            <if test="infoUrl != null">info_url = #{infoUrl},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteStaffInfoById" parameterType="Long">
+        delete from staff_info where id = #{id}
+    </delete>
+
+    <delete id="deleteStaffInfoByIds" parameterType="String">
+        delete from staff_info where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
