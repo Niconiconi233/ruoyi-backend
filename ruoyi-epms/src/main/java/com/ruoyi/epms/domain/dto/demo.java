@@ -1,5 +1,10 @@
 package com.ruoyi.epms.domain.dto;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class demo {
 
     public demo() {
@@ -10,6 +15,7 @@ public class demo {
         this.edu = "本科";
         this.face = "党员";
         this.corp = "xx联社";
+        this.no = "530111xxxxxxxxxxxx2154";
     }
 
     private String name;
@@ -19,4 +25,6 @@ public class demo {
     private String edu;
     private String face;
     private String corp;
+
+    private String no;
 }
