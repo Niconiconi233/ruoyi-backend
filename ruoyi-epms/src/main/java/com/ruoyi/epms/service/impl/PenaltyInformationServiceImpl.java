@@ -1,10 +1,13 @@
 package com.ruoyi.epms.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import com.ruoyi.common.annotation.DataScope;
 import com.ruoyi.epms.domain.vo.PenaltyInformationVo;
+import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import com.ruoyi.epms.mapper.PenaltyInformationMapper;
 import com.ruoyi.epms.domain.PenaltyInformation;
@@ -21,6 +24,9 @@ public class PenaltyInformationServiceImpl implements IPenaltyInformationService
 {
     @Autowired
     private PenaltyInformationMapper penaltyInformationMapper;
+
+    @Autowired
+    private RedisTemplate<String, String> redisTemplate;
 
     /**
      * 查询处罚信息
@@ -67,6 +73,7 @@ public class PenaltyInformationServiceImpl implements IPenaltyInformationService
     @Override
     public int insertPenaltyInformation(PenaltyInformation penaltyInformation)
     {
+        penaltyInformation.setCreateTime(new Date());
         return penaltyInformationMapper.insertPenaltyInformation(penaltyInformation);
     }
 
@@ -79,6 +86,7 @@ public class PenaltyInformationServiceImpl implements IPenaltyInformationService
     @Override
     public int updatePenaltyInformation(PenaltyInformation penaltyInformation)
     {
+        penaltyInformation.setModifyTime(new Date());
         return penaltyInformationMapper.updatePenaltyInformation(penaltyInformation);
     }
 
@@ -104,5 +112,13 @@ public class PenaltyInformationServiceImpl implements IPenaltyInformationService
     public int deletePenaltyInformationById(Long id)
     {
         return penaltyInformationMapper.deletePenaltyInformationById(id);
+    }
+
+    @Override
+    public void exportPenaltyInformation(Long staffId)
+    {
+        val penaltyInformation = penaltyInformationMapper.selectPenaltyInformationById(staffId);
+
+
     }
 }

@@ -110,13 +110,14 @@ public class PenaltyInformationController extends BaseController
     @PreAuthorize("@ss.hasPermi('epms:punishment:export')")
     @Log(title = "处罚信息", businessType = BusinessType.EXPORT)
     @PostMapping("/cover")
-    public void toExcel(HttpServletResponse response, @RequestBody Integer id) throws IOException {
-        System.out.println(id);
+    public void toExcel(HttpServletResponse response, PenaltyInformation penaltyInformation) throws IOException {
+        /*System.out.println(penaltyInformation.getStaffId());
         FileUtils.setAttachmentResponseHeader(response, "");
         File file = ResourceUtils.getFile("classpath:excel/fj1.xlsx");
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("demo", new demo());
         map.put("aa", "vv");
-        JxlsUtils.exportExcel(new FileInputStream(file), response.getOutputStream(), map);
+        JxlsUtils.exportExcel(new FileInputStream(file), response.getOutputStream(), map);*/
+        penaltyInformationService.exportPenaltyInformation(penaltyInformation.getStaffId());
     }
 }

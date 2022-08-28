@@ -68,5 +68,11 @@ public interface IPenaltyInformationService
      */
     public int deletePenaltyInformationById(Long id);
 
-    //public void exportPenaltyInformation(Http)
+    /**
+     * 删除处罚信息信息
+     *
+     * @param staffId 处罚信息主键
+     * @return 结果
+     */
+    public void exportPenaltyInformation(Long staffId);
 }
