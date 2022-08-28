@@ -6,6 +6,7 @@ import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.JxlsUtils;
+import com.ruoyi.common.utils.file.FileUtils;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.epms.domain.PenaltyInformation;
 import com.ruoyi.epms.domain.dto.demo;
@@ -79,6 +80,8 @@ public class PenaltyInformationController extends BaseController
     @PostMapping
     public AjaxResult add(@RequestBody PenaltyInformation penaltyInformation)
     {
+        penaltyInformation.setUserId(getUserId());
+        penaltyInformation.setDeptId(getDeptId());
         return toAjax(penaltyInformationService.insertPenaltyInformation(penaltyInformation));
     }
 
@@ -104,12 +107,12 @@ public class PenaltyInformationController extends BaseController
         return toAjax(penaltyInformationService.deletePenaltyInformationByIds(ids));
     }
 
-//    @PreAuthorize("@ss.hasPermi('epms:punishment:export')")
+    @PreAuthorize("@ss.hasPermi('epms:punishment:export')")
     @Log(title = "处罚信息", businessType = BusinessType.EXPORT)
     @PostMapping("/cover")
-    public void toExcel(HttpServletResponse response) throws IOException {
-        response.setHeader("Content-disposition", String.format("attachment;filename=fuck.xlsx"));
-        response.setContentType("application/octet-stream;charset=UTF-8");
+    public void toExcel(HttpServletResponse response, @RequestBody Integer id) throws IOException {
+        System.out.println(id);
+        FileUtils.setAttachmentResponseHeader(response, "");
         File file = ResourceUtils.getFile("classpath:excel/fj1.xlsx");
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("demo", new demo());

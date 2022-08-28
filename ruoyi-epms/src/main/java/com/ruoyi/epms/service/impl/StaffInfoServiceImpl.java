@@ -1,6 +1,9 @@
 package com.ruoyi.epms.service.impl;
 
+import java.util.Date;
 import java.util.List;
+
+import com.ruoyi.common.annotation.DataScope;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.epms.mapper.StaffInfoMapper;
@@ -38,6 +41,7 @@ public class StaffInfoServiceImpl implements IStaffInfoService
      * @return 员工信息管理
      */
     @Override
+    @DataScope(deptAlias = "s", userAlias = "s")
     public List<StaffInfo> selectStaffInfoList(StaffInfo staffInfo)
     {
         return staffInfoMapper.selectStaffInfoList(staffInfo);
@@ -52,6 +56,7 @@ public class StaffInfoServiceImpl implements IStaffInfoService
     @Override
     public int insertStaffInfo(StaffInfo staffInfo)
     {
+        staffInfo.setCreateTime(new Date());
         return staffInfoMapper.insertStaffInfo(staffInfo);
     }
 
@@ -64,6 +69,7 @@ public class StaffInfoServiceImpl implements IStaffInfoService
     @Override
     public int updateStaffInfo(StaffInfo staffInfo)
     {
+        staffInfo.setModifyTime(new Date());
         return staffInfoMapper.updateStaffInfo(staffInfo);
     }
 

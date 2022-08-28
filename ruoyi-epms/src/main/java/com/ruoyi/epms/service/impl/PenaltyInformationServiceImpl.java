@@ -2,6 +2,7 @@ package com.ruoyi.epms.service.impl;
 
 import java.util.List;
 
+import com.ruoyi.common.annotation.DataScope;
 import com.ruoyi.epms.domain.vo.PenaltyInformationVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -52,6 +53,7 @@ public class PenaltyInformationServiceImpl implements IPenaltyInformationService
      * @return 处罚信息
      */
     @Override
+    @DataScope(deptAlias = "p", userAlias = "p")
     public List<PenaltyInformationVo> selectPenaltyInformationVoList(PenaltyInformation penaltyInformation) {
         return penaltyInformationMapper.selectPenaltyInformationVoList(penaltyInformation);
     }

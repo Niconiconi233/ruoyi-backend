@@ -67,4 +67,6 @@ public interface IPenaltyInformationService
      * @return 结果
      */
     public int deletePenaltyInformationById(Long id);
+
+    //public void exportPenaltyInformation(Http)
 }

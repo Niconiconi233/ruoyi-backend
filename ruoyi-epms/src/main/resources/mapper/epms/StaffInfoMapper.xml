@@ -12,10 +12,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="birthday"    column="birthday"    />
         <result property="corp"    column="corp"    />
         <result property="infoUrl"    column="info_url"    />
+        <result property="userId"   column="user_id"    />
+        <result property="deptId"   column="dept_id"    />
+        <result property="createTime"   column="create_time"    />
+        <result property="modifyTime"   column="modify_time"    />
     </resultMap>
 
     <sql id="selectStaffInfoVo">
-        select id, name, sex, id_card, birthday, corp, info_url from staff_info
+        select id, name, sex, id_card, birthday, corp, info_url from staff_info s
     </sql>
 
     <select id="selectStaffInfoList" parameterType="StaffInfo" resultMap="StaffInfoResult">
@@ -24,6 +28,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
             <if test="idCard != null  and idCard != ''"> and id_card = #{idCard}</if>
             <if test="corp != null "> and corp = #{corp}</if>
+            ${params.dataScope}
         </where>
     </select>
     
@@ -41,6 +46,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="birthday != null">birthday,</if>
             <if test="corp != null">corp,</if>
             <if test="infoUrl != null">info_url,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="deptId != null">dept_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="modifyTime != null">modify_time</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="name != null and name != ''">#{name},</if>
@@ -49,6 +58,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="birthday != null">#{birthday},</if>
             <if test="corp != null">#{corp},</if>
             <if test="infoUrl != null">#{infoUrl},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="deptId != null">#{deptId},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="modifyTime != null">#{modifyTime}</if>
          </trim>
     </insert>
 
@@ -61,6 +74,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="birthday != null">birthday = #{birthday},</if>
             <if test="corp != null">corp = #{corp},</if>
             <if test="infoUrl != null">info_url = #{infoUrl},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="deptId != null">dept_id = #{deptId},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="modifyTime != null">modify_time = #{modifyTime}</if>
         </trim>
         where id = #{id}
     </update>

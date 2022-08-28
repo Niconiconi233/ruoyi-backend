@@ -19,6 +19,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="workTime"    column="work_time"    />
         <result property="fact"    column="fact"    />
         <result property="basis"    column="basis"    />
+        <result property="userId"   column="user_id"    />
+        <result property="deptId"   column="dept_id"    />
+        <result property="createTime"   column="create_time"    />
+        <result property="modifyTime"   column="modify_time"    />
     </resultMap>
 
     <resultMap id="PenaltyInformationVoResult" type="PenaltyInformationVO">
@@ -32,7 +36,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectPenaltyInformationVo">
-        select id, staff_id, edcuation, political_status, punishment_agency, institution_name, institutional_level, department, post, qualifications, file_no, work_time, fact, basis from penalty_information
+        select id, staff_id, edcuation, political_status, punishment_agency, institution_name, institutional_level, department, post, qualifications, file_no, work_time, fact, basis from penalty_information p
     </sql>
 
     <select id="selectPenaltyInformationList" parameterType="PenaltyInformation" resultMap="PenaltyInformationResult">
@@ -40,6 +44,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <where>  
             <if test="staffId != null "> and staff_id = #{staffId}</if>
             <if test="punishmentAgency != null "> and punishment_agency = #{punishmentAgency}</if>
+            ${params.dataScope}
         </where>
     </select>
 
@@ -48,10 +53,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         from penalty_information as p
         left join staff_info as s
         on p.staff_id = s.id
-        where 1 = 1
         <where>
             <if test="staffId != null " >and staff_id = #{staffId}</if>
             <if test="punishmentAgency != null" >and punishment_agency = #{punishmentAgency}</if>
+            ${params.dataScope}
         </where>
     </select>
     
@@ -76,6 +81,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="workTime != null">work_time,</if>
             <if test="fact != null and fact != ''">fact,</if>
             <if test="basis != null and basis != ''">basis,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="deptId != null">dept_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="modifyTime != null">modify_time</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="staffId != null">#{staffId},</if>
@@ -91,6 +100,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="workTime != null">#{workTime},</if>
             <if test="fact != null and fact != ''">#{fact},</if>
             <if test="basis != null and basis != ''">#{basis},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="deptId != null">#{deptId},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="modifyTime != null">#{modifyTime}</if>
          </trim>
     </insert>
 
@@ -110,6 +123,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="workTime != null">work_time = #{workTime},</if>
             <if test="fact != null and fact != ''">fact = #{fact},</if>
             <if test="basis != null and basis != ''">basis = #{basis},</if>
+            <if test="modifyTime != null">modify_time = #{modifyTime}</if>
         </trim>
         where id = #{id}
     </update>

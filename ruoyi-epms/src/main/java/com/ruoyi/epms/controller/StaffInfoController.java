@@ -77,6 +77,8 @@ public class StaffInfoController extends BaseController
     @PostMapping
     public AjaxResult add(@RequestBody StaffInfo staffInfo)
     {
+        staffInfo.setDeptId(getDeptId());
+        staffInfo.setUserId(getUserId());
         return toAjax(staffInfoService.insertStaffInfo(staffInfo));
     }
 

@@ -5,6 +5,8 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 
+import java.util.Date;
+
 /**
  * 处罚信息对象 penalty_information
  * 
@@ -61,6 +63,18 @@ public class PenaltyInformation extends BaseEntity
 
     /** 处罚依据 */
     private String basis;
+
+    /** 创建人 */
+    private Long userId;
+
+    /** 创建机构 */
+    private Long deptId;
+
+    /** 创建时间 */
+    private Date createTime;
+
+    /** 修改时间 */
+    private Date modifyTime;
 
     public void setId(Long id) 
     {
@@ -187,6 +201,39 @@ public class PenaltyInformation extends BaseEntity
     public String getBasis() 
     {
         return basis;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setDeptId(Long deptId) {
+        this.deptId = deptId;
+    }
+
+    public Long getDeptId() {
+        return deptId;
+    }
+
+    @Override
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    @Override
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setModifyTime(Date modifyTime) {
+        this.modifyTime = modifyTime;
+    }
+
+    public Date getModifyTime() {
+        return modifyTime;
     }
 
     @Override
