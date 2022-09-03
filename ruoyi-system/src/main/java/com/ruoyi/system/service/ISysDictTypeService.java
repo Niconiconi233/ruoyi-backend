@@ -1,6 +1,8 @@
 package com.ruoyi.system.service;
 
 import java.util.List;
+import java.util.Map;
+
 import com.ruoyi.common.core.domain.entity.SysDictData;
 import com.ruoyi.common.core.domain.entity.SysDictType;
 
@@ -61,6 +63,11 @@ public interface ISysDictTypeService
      * 加载字典缓存数据
      */
     public void loadingDictCache();
+
+    /**
+     * 加载字典缓存数据
+     */
+    public Map<String, Map<String, String>> loadingDictCacheToMap();
 
     /**
      * 清空字典缓存数据

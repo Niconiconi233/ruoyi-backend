@@ -146,6 +146,15 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService
         }
     }
 
+    @Override
+    public Map<String, Map<String, String>> loadingDictCacheToMap()
+    {
+        SysDictData dictData = new SysDictData();
+        dictData.setStatus("0");
+        Map<String, List<SysDictData>> dictDataMap = dictDataMapper.selectDictDataList(dictData).stream().collect(Collectors.groupingBy(SysDictData::getDictType));
+        return null;
+    }
+
     /**
      * 清空字典缓存数据
      */
