@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.emps.mapper.PenaltyListMapper">
+    
+    <resultMap type="PenaltyList" id="PenaltyListResult">
+        <result property="id"    column="id"    />
+        <result property="penaltyInfoId"    column="penalty_info_id"    />
+        <result property="penaltyType"    column="penalty_type"    />
+        <result property="penaltyData"    column="penalty_data"    />
+        <result property="penaltyTime"    column="penalty_time"    />
+        <result property="penaltyRange"    column="penalty_range"    />
+        <result property="penaltyEnds"    column="penalty_ends"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="modifyTime"    column="modify_time"    />
+    </resultMap>
+
+    <sql id="selectPenaltyListVo">
+        select id, penalty_info_id, penalty_type, penalty_data, penalty_time, penalty_range, penalty_ends, create_time, modify_time from penalty_list
+    </sql>
+
+    <select id="selectPenaltyListList" parameterType="PenaltyList" resultMap="PenaltyListResult">
+        <include refid="selectPenaltyListVo"/>
+        <where>  
+            <if test="penaltyType != null "> and penalty_type = #{penaltyType}</if>
+            <if test="penaltyData != null "> and penalty_data = #{penaltyData}</if>
+        </where>
+    </select>
+    
+    <select id="selectPenaltyListById" parameterType="Long" resultMap="PenaltyListResult">
+        <include refid="selectPenaltyListVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertPenaltyList" parameterType="PenaltyList" useGeneratedKeys="true" keyProperty="id">
+        insert into penalty_list
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="penaltyInfoId != null">penalty_info_id,</if>
+            <if test="penaltyType != null">penalty_type,</if>
+            <if test="penaltyData != null">penalty_data,</if>
+            <if test="penaltyTime != null">penalty_time,</if>
+            <if test="penaltyRange != null and penaltyRange != ''">penalty_range,</if>
+            <if test="penaltyEnds != null">penalty_ends,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="modifyTime != null">modify_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="penaltyInfoId != null">#{penaltyInfoId},</if>
+            <if test="penaltyType != null">#{penaltyType},</if>
+            <if test="penaltyData != null">#{penaltyData},</if>
+            <if test="penaltyTime != null">#{penaltyTime},</if>
+            <if test="penaltyRange != null and penaltyRange != ''">#{penaltyRange},</if>
+            <if test="penaltyEnds != null">#{penaltyEnds},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="modifyTime != null">#{modifyTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updatePenaltyList" parameterType="PenaltyList">
+        update penalty_list
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="penaltyInfoId != null">penalty_info_id = #{penaltyInfoId},</if>
+            <if test="penaltyType != null">penalty_type = #{penaltyType},</if>
+            <if test="penaltyData != null">penalty_data = #{penaltyData},</if>
+            <if test="penaltyTime != null">penalty_time = #{penaltyTime},</if>
+            <if test="penaltyRange != null and penaltyRange != ''">penalty_range = #{penaltyRange},</if>
+            <if test="penaltyEnds != null">penalty_ends = #{penaltyEnds},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="modifyTime != null">modify_time = #{modifyTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deletePenaltyListById" parameterType="Long">
+        delete from penalty_list where id = #{id}
+    </delete>
+
+    <delete id="deletePenaltyListByIds" parameterType="String">
+        delete from penalty_list where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

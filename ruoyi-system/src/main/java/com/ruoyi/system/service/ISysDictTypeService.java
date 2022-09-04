@@ -67,7 +67,7 @@ public interface ISysDictTypeService
     /**
      * 加载字典缓存数据
      */
-    public Map<String, Map<String, String>> loadingDictCacheToMap();
+    public void loadingDictCacheToMap();
 
     /**
      * 清空字典缓存数据
