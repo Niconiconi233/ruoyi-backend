@@ -1,7 +1,7 @@
-package com.ruoyi.emps.service;
+package com.ruoyi.epms.service;
 
 import java.util.List;
-import com.ruoyi.emps.domain.PenaltyList;
+import com.ruoyi.epms.domain.PenaltyList;
 
 /**
  * 处罚类别明细Service接口

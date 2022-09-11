@@ -1,4 +1,4 @@
-package com.ruoyi.emps.controller;
+package com.ruoyi.epms.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
@@ -16,8 +16,8 @@ import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.enums.BusinessType;
-import com.ruoyi.emps.domain.PenaltyList;
-import com.ruoyi.emps.service.IPenaltyListService;
+import com.ruoyi.epms.domain.PenaltyList;
+import com.ruoyi.epms.service.IPenaltyListService;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.page.TableDataInfo;
 
@@ -38,7 +38,7 @@ public class PenaltyListController extends BaseController
      * 查询处罚类别明细列表
      */
     @PreAuthorize("@ss.hasPermi('epms:data:list')")
-    @GetMapping("/list")
+    @GetMapping("/list}")
     public TableDataInfo list(PenaltyList penaltyList)
     {
         startPage();

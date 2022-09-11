@@ -1,4 +1,4 @@
-package com.ruoyi.emps.domain;
+package com.ruoyi.epms.domain;
 
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;

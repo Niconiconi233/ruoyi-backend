@@ -1,7 +1,7 @@
-package com.ruoyi.emps.mapper;
+package com.ruoyi.epms.mapper;
 
 import java.util.List;
-import com.ruoyi.emps.domain.PenaltyList;
+import com.ruoyi.epms.domain.PenaltyList;
 
 /**
  * 处罚类别明细Mapper接口

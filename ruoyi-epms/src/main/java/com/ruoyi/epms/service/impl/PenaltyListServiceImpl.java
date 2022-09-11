@@ -1,12 +1,12 @@
-package com.ruoyi.emps.service.impl;
+package com.ruoyi.epms.service.impl;
 
 import java.util.List;
 import com.ruoyi.common.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ruoyi.emps.mapper.PenaltyListMapper;
-import com.ruoyi.emps.domain.PenaltyList;
-import com.ruoyi.emps.service.IPenaltyListService;
+import com.ruoyi.epms.mapper.PenaltyListMapper;
+import com.ruoyi.epms.domain.PenaltyList;
+import com.ruoyi.epms.service.IPenaltyListService;
 
 /**
  * 处罚类别明细Service业务层处理
