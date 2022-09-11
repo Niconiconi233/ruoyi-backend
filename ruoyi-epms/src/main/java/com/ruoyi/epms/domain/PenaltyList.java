@@ -25,11 +25,11 @@ public class PenaltyList extends BaseEntity
 
     /** 处罚类型 */
     @Excel(name = "处罚类型")
-    private Long penaltyType;
+    private String penaltyType;
 
     /** 处罚子项 */
     @Excel(name = "处罚子项")
-    private Long penaltyData;
+    private String penaltyData;
 
     /** 处罚时间 */
     @JsonFormat(pattern = "yyyy-MM-dd")
@@ -66,21 +66,21 @@ public class PenaltyList extends BaseEntity
     {
         return penaltyInfoId;
     }
-    public void setPenaltyType(Long penaltyType) 
+    public void setPenaltyType(String penaltyType)
     {
         this.penaltyType = penaltyType;
     }
 
-    public Long getPenaltyType() 
+    public String getPenaltyType()
     {
         return penaltyType;
     }
-    public void setPenaltyData(Long penaltyData) 
+    public void setPenaltyData(String penaltyData)
     {
         this.penaltyData = penaltyData;
     }
 
-    public Long getPenaltyData() 
+    public String getPenaltyData()
     {
         return penaltyData;
     }

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ruoyi.emps.mapper.PenaltyListMapper">
+<mapper namespace="com.ruoyi.epms.mapper.PenaltyListMapper">
     
     <resultMap type="PenaltyList" id="PenaltyListResult">
         <result property="id"    column="id"    />
@@ -16,20 +16,44 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="modifyTime"    column="modify_time"    />
     </resultMap>
 
+    <resultMap type="PenaltyListVo" id="PenaltyListVoResult">
+        <result property="id"    column="id"    />
+        <result property="penaltyInfoId"    column="penalty_info_id"    />
+        <result property="penaltyType"    column="penalty_type"    />
+        <result property="penaltyData"    column="penalty_data"    />
+        <result property="penaltyTime"    column="penalty_time"    />
+        <result property="penaltyRange"    column="penalty_range"    />
+        <result property="penaltyEnds"    column="penalty_ends"    />
+    </resultMap>
+
     <sql id="selectPenaltyListVo">
         select id, penalty_info_id, penalty_type, penalty_data, penalty_time, penalty_range, penalty_ends, create_time, modify_time from penalty_list
     </sql>
 
+    <sql id="selectPenaltyVo">
+        select id, penalty_info_id, penalty_type, penalty_data, penalty_time, penalty_range, penalty_ends from penalty_list
+    </sql>
+
     <select id="selectPenaltyListList" parameterType="PenaltyList" resultMap="PenaltyListResult">
         <include refid="selectPenaltyListVo"/>
-        <where>  
+        <where>
+            <if test="penaltyInfoId != null "> and penalty_info_id = #{penaltyInfoId}</if>
+            <if test="penaltyType != null "> and penalty_type = #{penaltyType}</if>
+            <if test="penaltyData != null "> and penalty_data = #{penaltyData}</if>
+        </where>
+    </select>
+
+    <select id="selectPenaltyVoList" parameterType="PenaltyList" resultMap="PenaltyListVoResult">
+        <include refid="selectPenaltyVo"    />
+        <where>
+            <if test="penaltyInfoId != null "> and penalty_info_id = #{penaltyInfoId}</if>
             <if test="penaltyType != null "> and penalty_type = #{penaltyType}</if>
             <if test="penaltyData != null "> and penalty_data = #{penaltyData}</if>
         </where>
     </select>
     
-    <select id="selectPenaltyListById" parameterType="Long" resultMap="PenaltyListResult">
-        <include refid="selectPenaltyListVo"/>
+    <select id="selectPenaltyListById" parameterType="Long" resultMap="PenaltyListVoResult">
+        <include refid="selectPenaltyVo"/>
         where id = #{id}
     </select>
         
