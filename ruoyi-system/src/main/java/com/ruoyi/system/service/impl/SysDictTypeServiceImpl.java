@@ -1,11 +1,13 @@
 package com.ruoyi.system.service.impl;
 
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.ruoyi.common.constant.UserConstants;
@@ -39,6 +41,7 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService
     public void init()
     {
         loadingDictCache();
+        loadingDictCacheToMap();
     }
 
     /**
@@ -147,12 +150,16 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService
     }
 
     @Override
-    public Map<String, Map<String, String>> loadingDictCacheToMap()
+    public void loadingDictCacheToMap()
     {
         SysDictData dictData = new SysDictData();
         dictData.setStatus("0");
         Map<String, List<SysDictData>> dictDataMap = dictDataMapper.selectDictDataList(dictData).stream().collect(Collectors.groupingBy(SysDictData::getDictType));
-        return null;
+        for (Map.Entry<String, List<SysDictData>> entry : dictDataMap.entrySet())
+        {
+
+            DictUtils.setDictCacheMap(entry.getKey(), entry.getValue().stream().collect(Collectors.toMap(SysDictData::getDictValue, SysDictData::getDictLabel)));
+        }
     }
 
     /**

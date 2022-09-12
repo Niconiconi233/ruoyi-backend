@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.ruoyi.common.annotation.DataScope;
+import com.ruoyi.common.utils.uid.SnowFlake;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.epms.mapper.StaffInfoMapper;
@@ -56,6 +57,7 @@ public class StaffInfoServiceImpl implements IStaffInfoService
     @Override
     public int insertStaffInfo(StaffInfo staffInfo)
     {
+        staffInfo.setId(SnowFlake.nextId());
         staffInfo.setCreateTime(new Date());
         return staffInfoMapper.insertStaffInfo(staffInfo);
     }

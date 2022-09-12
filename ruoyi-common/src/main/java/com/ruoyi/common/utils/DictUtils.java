@@ -2,6 +2,8 @@ package com.ruoyi.common.utils;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+
 import com.alibaba.fastjson2.JSONArray;
 import com.ruoyi.common.constant.CacheConstants;
 import com.ruoyi.common.core.domain.entity.SysDictData;
@@ -30,6 +32,16 @@ public class DictUtils
     {
         SpringUtils.getBean(RedisCache.class).setCacheObject(getCacheKey(key), dictDatas);
     }
+    /**
+     * 设置字典缓存
+     *
+     * @param key 参数键
+     * @param dictMap 字典数据列表
+     */
+    public static void setDictCacheMap(String key, Map<String, String> dictMap)
+    {
+        SpringUtils.getBean(RedisCache.class).setCacheObject(getCacheKeyMap(key), dictMap);
+    }
 
     /**
      * 获取字典缓存
@@ -43,6 +55,16 @@ public class DictUtils
         if (StringUtils.isNotNull(arrayCache))
         {
             return arrayCache.toList(SysDictData.class);
+        }
+        return null;
+    }
+
+    public static Map<String, String> getDictCacheMap(String key)
+    {
+        Map<String, String> cacheObject = SpringUtils.getBean(RedisCache.class).getCacheObject(getCacheKeyMap(key));
+        if (cacheObject != null)
+        {
+            return cacheObject;
         }
         return null;
     }
@@ -182,5 +204,10 @@ public class DictUtils
     public static String getCacheKey(String configKey)
     {
         return CacheConstants.SYS_DICT_KEY + configKey;
+    }
+
+    public static String getCacheKeyMap(String configKey)
+    {
+        return CacheConstants.SYS_DICT_MAP_KEY + configKey;
     }
 }

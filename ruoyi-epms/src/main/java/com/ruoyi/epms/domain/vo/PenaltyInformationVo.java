@@ -1,10 +1,15 @@
 package com.ruoyi.epms.domain.vo;
 
 import com.ruoyi.common.annotation.Excel;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
+import com.ruoyi.common.core.domain.BaseEntity;
+import lombok.Getter;
+import lombok.Setter;
 
-public class PenaltyInformationVo {
+import java.util.Date;
+
+@Getter
+@Setter
+public class PenaltyInformationVo extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
 
@@ -12,10 +17,6 @@ public class PenaltyInformationVo {
     private Long id;
 
     /** 员工编号 */
-    @Excel(name = "员工编号")
-    private Integer staffId;
-
-    /** 员工名称 */
     @Excel(name = "员工名称")
     private String staffName;
 
@@ -35,74 +36,39 @@ public class PenaltyInformationVo {
     @Excel(name = "被处罚时所在机构名称")
     private String institutionName;
 
-    public void setId(Long id)
-    {
-        this.id = id;
-    }
-    public Long getId()
-    {
-        return id;
-    }
+    /** 被处罚时所在机构层级 */
+    private Long institutionalLevel;
 
-    public void setStaffId(Integer staffId)
-    {
-        this.staffId = staffId;
-    }
-    public Integer getStaffId()
-    {
-        return this.staffId;
-    }
+    /** 被处罚时所在机构部门 */
+    private String department;
 
-    public void setStaffName(String staffName)
-    {
-        this.staffName = staffName;
-    }
-    public String getStaffName()
-    {
-        return this.staffName;
-    }
+    /** 被处罚时岗位、职务 */
+    private String post;
 
-    public Long getEdcuation()
-    {
-        return edcuation;
-    }
-    public void setPoliticalStatus(Long politicalStatus)
-    {
-        this.politicalStatus = politicalStatus;
-    }
+    /** 是否具有理事、监事、高管任职资格 */
+    private String qualifications;
 
-    public Long getPoliticalStatus()
-    {
-        return politicalStatus;
-    }
-    public void setPunishmentAgency(Long punishmentAgency)
-    {
-        this.punishmentAgency = punishmentAgency;
-    }
+    /** 任职资格文件号 */
+    private String fileNo;
 
-    public Long getPunishmentAgency()
-    {
-        return punishmentAgency;
-    }
-    public void setInstitutionName(String institutionName)
-    {
-        this.institutionName = institutionName;
-    }
+    /** 任职时间 */
+    private String workTime;
 
-    public String getInstitutionName()
-    {
-        return this.institutionName;
-    }
+    /** 违法违纪基本事实 */
+    private String fact;
 
+    /** 处罚依据 */
+    private String basis;
 
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
-                .append("id", getId())
-                .append("staffName", getStaffName())
-                .append("edcuation", getEdcuation())
-                .append("politicalStatus", getPoliticalStatus())
-                .append("punishmentAgency", getPunishmentAgency())
-                .toString();
-    }
+    /** 创建人 */
+    private Long userId;
+
+    /** 创建机构 */
+    private Long deptId;
+
+    /** 创建时间 */
+    private Date createTime;
+
+    /** 修改时间 */
+    private Date modifyTime;
 }

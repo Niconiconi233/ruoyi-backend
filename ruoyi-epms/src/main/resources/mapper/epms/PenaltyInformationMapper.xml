@@ -25,7 +25,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="modifyTime"   column="modify_time"    />
     </resultMap>
 
-    <resultMap id="PenaltyInformationVoResult" type="PenaltyInformationVO">
+    <resultMap id="PenaltyInformationLIstVoResult" type="PenaltyInformationListVo">
         <result property="id" column="id"   />
         <result property="staffId" column="staff_id"    />
         <result property="staffName" column="staff_name"     />
@@ -34,6 +34,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="punishmentAgency"    column="punishment_agency"    />
         <result property="institutionName"    column="institution_name"    />
     </resultMap>
+
+    <resultMap type="PenaltyInformationVo" id="PenaltyInformationVoResult">
+        <result property="id"    column="id"    />
+        <result property="staffName"    column="staff_name"    />
+        <result property="edcuation"    column="edcuation"    />
+        <result property="politicalStatus"    column="political_status"    />
+        <result property="punishmentAgency"    column="punishment_agency"    />
+        <result property="institutionName"    column="institution_name"    />
+        <result property="institutionalLevel"    column="institutional_level"    />
+        <result property="department"    column="department"    />
+        <result property="post"    column="post"    />
+        <result property="qualifications"    column="qualifications"    />
+        <result property="fileNo"    column="file_no"    />
+        <result property="workTime"    column="work_time"    />
+        <result property="fact"    column="fact"    />
+        <result property="basis"    column="basis"    />
+        <result property="userId"   column="user_id"    />
+        <result property="deptId"   column="dept_id"    />
+        <result property="createTime"   column="create_time"    />
+        <result property="modifyTime"   column="modify_time"    />
+    </resultMap>
+
 
     <sql id="selectPenaltyInformationVo">
         select id, staff_id, edcuation, political_status, punishment_agency, institution_name, institutional_level, department, post, qualifications, file_no, work_time, fact, basis from penalty_information p
@@ -48,7 +70,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </where>
     </select>
 
-    <select id="selectPenaltyInformationVoList" parameterType="PenaltyInformation" resultMap="PenaltyInformationVoResult">
+    <select id="selectPenaltyInformationVoList" parameterType="PenaltyInformation" resultMap="PenaltyInformationLIstVoResult">
         select p.id, p.staff_id, s.name as staff_name, p.edcuation, p.political_status, p.punishment_agency, p.institution_name
         from penalty_information as p
         left join staff_info as s
@@ -60,14 +82,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </where>
     </select>
     
-    <select id="selectPenaltyInformationById" parameterType="Long" resultMap="PenaltyInformationResult">
-        <include refid="selectPenaltyInformationVo"/>
-        where id = #{id}
+    <select id="selectPenaltyInformationById" parameterType="Long" resultMap="PenaltyInformationVoResult">
+        select p.id, p.staff_id, s.name as staff_name, p.edcuation, p.political_status, p.punishment_agency, p.institution_name, p.institutional_level, p.department, p.post, p.qualifications, p.file_no, p.work_time, p.fact, p.basis
+        from penalty_information as p
+        left join staff_info as s
+        on p.staff_id = s.id
+        where p.id = #{id}
     </select>
         
     <insert id="insertPenaltyInformation" parameterType="PenaltyInformation" useGeneratedKeys="true" keyProperty="id">
         insert into penalty_information
         <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
             <if test="staffId != null">staff_id,</if>
             <if test="edcuation != null">edcuation,</if>
             <if test="politicalStatus != null">political_status,</if>
@@ -87,6 +113,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="modifyTime != null">modify_time</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
             <if test="staffId != null">#{staffId},</if>
             <if test="edcuation != null">#{edcuation},</if>
             <if test="politicalStatus != null">#{politicalStatus},</if>

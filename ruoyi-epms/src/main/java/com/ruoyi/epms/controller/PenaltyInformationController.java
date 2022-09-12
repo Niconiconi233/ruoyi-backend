@@ -5,23 +5,17 @@ import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.enums.BusinessType;
-import com.ruoyi.common.utils.JxlsUtils;
-import com.ruoyi.common.utils.file.FileUtils;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.epms.domain.PenaltyInformation;
-import com.ruoyi.epms.domain.dto.demo;
-import com.ruoyi.epms.domain.vo.PenaltyInformationVo;
+import com.ruoyi.epms.domain.vo.PenaltyInformationListVo;
 import com.ruoyi.epms.service.IPenaltyInformationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 处罚信息Controller
@@ -36,6 +30,7 @@ public class PenaltyInformationController extends BaseController
     @Autowired
     private IPenaltyInformationService penaltyInformationService;
 
+
     /**
      * 查询处罚信息列表
      */
@@ -44,8 +39,7 @@ public class PenaltyInformationController extends BaseController
     public TableDataInfo list(PenaltyInformation penaltyInformation)
     {
         startPage();
-        //List<PenaltyInformation> list = penaltyInformationService.selectPenaltyInformationList(penaltyInformation);
-        List<PenaltyInformationVo> list = penaltyInformationService.selectPenaltyInformationVoList(penaltyInformation);
+        List<PenaltyInformationListVo> list = penaltyInformationService.selectPenaltyInformationVoList(penaltyInformation);
         return getDataTable(list);
     }
 

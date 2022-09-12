@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.List;
 
 import com.ruoyi.common.annotation.DataScope;
+import com.ruoyi.common.utils.uid.SnowFlake;
+import com.ruoyi.epms.domain.vo.PenaltyInformationListVo;
 import com.ruoyi.epms.domain.vo.PenaltyInformationVo;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +37,7 @@ public class PenaltyInformationServiceImpl implements IPenaltyInformationService
      * @return 处罚信息
      */
     @Override
-    public PenaltyInformation selectPenaltyInformationById(Long id)
+    public PenaltyInformationVo selectPenaltyInformationById(Long id)
     {
         return penaltyInformationMapper.selectPenaltyInformationById(id);
     }
@@ -60,7 +62,7 @@ public class PenaltyInformationServiceImpl implements IPenaltyInformationService
      */
     @Override
     @DataScope(deptAlias = "p", userAlias = "p")
-    public List<PenaltyInformationVo> selectPenaltyInformationVoList(PenaltyInformation penaltyInformation) {
+    public List<PenaltyInformationListVo> selectPenaltyInformationVoList(PenaltyInformation penaltyInformation) {
         return penaltyInformationMapper.selectPenaltyInformationVoList(penaltyInformation);
     }
 
@@ -73,6 +75,7 @@ public class PenaltyInformationServiceImpl implements IPenaltyInformationService
     @Override
     public int insertPenaltyInformation(PenaltyInformation penaltyInformation)
     {
+        penaltyInformation.setId(SnowFlake.nextId());
         penaltyInformation.setCreateTime(new Date());
         return penaltyInformationMapper.insertPenaltyInformation(penaltyInformation);
     }

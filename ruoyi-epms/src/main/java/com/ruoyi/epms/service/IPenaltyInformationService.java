@@ -2,6 +2,7 @@ package com.ruoyi.epms.service;
 
 import java.util.List;
 import com.ruoyi.epms.domain.PenaltyInformation;
+import com.ruoyi.epms.domain.vo.PenaltyInformationListVo;
 import com.ruoyi.epms.domain.vo.PenaltyInformationVo;
 
 /**
@@ -18,7 +19,7 @@ public interface IPenaltyInformationService
      * @param id 处罚信息主键
      * @return 处罚信息
      */
-    public PenaltyInformation selectPenaltyInformationById(Long id);
+    public PenaltyInformationVo selectPenaltyInformationById(Long id);
 
     /**
      * 查询处罚信息列表
@@ -34,7 +35,7 @@ public interface IPenaltyInformationService
      * @param penaltyInformation 处罚信息
      * @return 处罚信息集合
      */
-    public List<PenaltyInformationVo> selectPenaltyInformationVoList(PenaltyInformation penaltyInformation);
+    public List<PenaltyInformationListVo> selectPenaltyInformationVoList(PenaltyInformation penaltyInformation);
 
     /**
      * 新增处罚信息

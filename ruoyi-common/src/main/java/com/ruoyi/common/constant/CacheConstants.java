@@ -41,4 +41,9 @@ public class CacheConstants
      * 登录账户密码错误次数 redis key
      */
     public static final String PWD_ERR_CNT_KEY = "pwd_err_cnt:";
+
+    /**
+     * 字典键值对映射
+     */
+    public static final String SYS_DICT_MAP_KEY = "sys_dict_map:";
 }
