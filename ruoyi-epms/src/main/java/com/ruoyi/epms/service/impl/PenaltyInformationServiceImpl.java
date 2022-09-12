@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.ruoyi.common.annotation.DataScope;
+import com.ruoyi.common.utils.uid.SnowFlake;
 import com.ruoyi.epms.domain.vo.PenaltyInformationListVo;
 import com.ruoyi.epms.domain.vo.PenaltyInformationVo;
 import lombok.val;
@@ -74,6 +75,7 @@ public class PenaltyInformationServiceImpl implements IPenaltyInformationService
     @Override
     public int insertPenaltyInformation(PenaltyInformation penaltyInformation)
     {
+        penaltyInformation.setId(SnowFlake.nextId());
         penaltyInformation.setCreateTime(new Date());
         return penaltyInformationMapper.insertPenaltyInformation(penaltyInformation);
     }

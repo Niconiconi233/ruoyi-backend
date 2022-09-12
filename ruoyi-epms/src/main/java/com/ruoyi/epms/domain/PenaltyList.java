@@ -48,6 +48,8 @@ public class PenaltyList extends BaseEntity
     /** 修改时间 */
     private Date modifyTime;
 
+    private String other;
+
     public void setId(Long id) 
     {
         this.id = id;
@@ -119,6 +121,14 @@ public class PenaltyList extends BaseEntity
     public Date getModifyTime() 
     {
         return modifyTime;
+    }
+
+    public void setOther(String other) {
+        this.other = other;
+    }
+
+    public String getOther() {
+        return other;
     }
 
     @Override

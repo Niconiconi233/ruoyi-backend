@@ -40,6 +40,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <insert id="insertStaffInfo" parameterType="StaffInfo" useGeneratedKeys="true" keyProperty="id">
         insert into staff_info
         <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
             <if test="name != null and name != ''">name,</if>
             <if test="sex != null">sex,</if>
             <if test="idCard != null and idCard != ''">id_card,</if>
@@ -52,6 +53,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="modifyTime != null">modify_time</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
             <if test="name != null and name != ''">#{name},</if>
             <if test="sex != null">#{sex},</if>
             <if test="idCard != null and idCard != ''">#{idCard},</if>

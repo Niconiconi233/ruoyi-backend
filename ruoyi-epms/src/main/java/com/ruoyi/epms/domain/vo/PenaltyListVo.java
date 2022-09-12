@@ -32,4 +32,6 @@ public class PenaltyListVo {
     /** 结束时间 */
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date penaltyEnds;
+
+    private String other;
 }

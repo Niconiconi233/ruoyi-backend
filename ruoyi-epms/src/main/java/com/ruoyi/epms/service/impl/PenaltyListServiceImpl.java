@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.DictUtils;
+import com.ruoyi.common.utils.uid.SnowFlake;
 import com.ruoyi.epms.domain.vo.PenaltyListVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -96,6 +97,7 @@ public class PenaltyListServiceImpl implements IPenaltyListService
     @Override
     public int insertPenaltyList(PenaltyList penaltyList)
     {
+        penaltyList.setId(SnowFlake.nextId());
         penaltyList.setCreateTime(DateUtils.getNowDate());
         return penaltyListMapper.insertPenaltyList(penaltyList);
     }
