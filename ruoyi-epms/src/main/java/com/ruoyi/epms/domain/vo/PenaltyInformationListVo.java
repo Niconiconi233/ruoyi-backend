@@ -13,7 +13,7 @@ public class PenaltyInformationListVo {
 
     /** 员工编号 */
     @Excel(name = "员工编号")
-    private Integer staffId;
+    private Long staffId;
 
     /** 员工名称 */
     @Excel(name = "员工名称")
@@ -44,11 +44,11 @@ public class PenaltyInformationListVo {
         return id;
     }
 
-    public void setStaffId(Integer staffId)
+    public void setStaffId(Long staffId)
     {
         this.staffId = staffId;
     }
-    public Integer getStaffId()
+    public Long getStaffId()
     {
         return this.staffId;
     }
@@ -94,6 +94,10 @@ public class PenaltyInformationListVo {
         return this.institutionName;
     }
 
+
+    public void setEdcuation(Long edcuation) {
+        this.edcuation = edcuation;
+    }
 
     @Override
     public String toString() {

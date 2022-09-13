@@ -59,6 +59,16 @@ public class DictUtils
         return null;
     }
 
+    public static Map<String, String> getDictCacheMap(String key)
+    {
+        Map<String, String> cacheObject = SpringUtils.getBean(RedisCache.class).getCacheObject(getCacheKeyMap(key));
+        if (cacheObject != null)
+        {
+            return cacheObject;
+        }
+        return null;
+    }
+
     /**
      * 根据字典类型和字典值获取字典标签
      * 

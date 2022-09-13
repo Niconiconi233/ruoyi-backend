@@ -2,6 +2,8 @@ package com.ruoyi.epms.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import com.ruoyi.epms.domain.vo.PenaltyListVo;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,19 +39,19 @@ public class PenaltyListController extends BaseController
     /**
      * 查询处罚类别明细列表
      */
-    @PreAuthorize("@ss.hasPermi('epms:data:list')")
-    @GetMapping("/list}")
+    @PreAuthorize("@ss.hasPermi('epms:punishment:list')")
+    @GetMapping("/list")
     public TableDataInfo list(PenaltyList penaltyList)
     {
         startPage();
-        List<PenaltyList> list = penaltyListService.selectPenaltyListList(penaltyList);
+        List<PenaltyListVo> list = penaltyListService.selectPenaltyVoList(penaltyList);
         return getDataTable(list);
     }
 
     /**
      * 导出处罚类别明细列表
      */
-    @PreAuthorize("@ss.hasPermi('epms:data:export')")
+    @PreAuthorize("@ss.hasPermi('epms:punishment:export')")
     @Log(title = "处罚类别明细", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, PenaltyList penaltyList)
@@ -62,7 +64,7 @@ public class PenaltyListController extends BaseController
     /**
      * 获取处罚类别明细详细信息
      */
-    @PreAuthorize("@ss.hasPermi('epms:data:query')")
+    @PreAuthorize("@ss.hasPermi('epms:punishment:query')")
     @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id)
     {
@@ -72,7 +74,7 @@ public class PenaltyListController extends BaseController
     /**
      * 新增处罚类别明细
      */
-    @PreAuthorize("@ss.hasPermi('epms:data:add')")
+    @PreAuthorize("@ss.hasPermi('epms:punishment:add')")
     @Log(title = "处罚类别明细", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody PenaltyList penaltyList)
@@ -83,7 +85,7 @@ public class PenaltyListController extends BaseController
     /**
      * 修改处罚类别明细
      */
-    @PreAuthorize("@ss.hasPermi('epms:data:edit')")
+    @PreAuthorize("@ss.hasPermi('epms:punishment:edit')")
     @Log(title = "处罚类别明细", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody PenaltyList penaltyList)
@@ -94,7 +96,7 @@ public class PenaltyListController extends BaseController
     /**
      * 删除处罚类别明细
      */
-    @PreAuthorize("@ss.hasPermi('epms:data:remove')")
+    @PreAuthorize("@ss.hasPermi('epms:punishment:remove')")
     @Log(title = "处罚类别明细", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids)

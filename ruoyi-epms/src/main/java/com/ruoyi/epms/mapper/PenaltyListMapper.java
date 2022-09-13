@@ -2,6 +2,7 @@ package com.ruoyi.epms.mapper;
 
 import java.util.List;
 import com.ruoyi.epms.domain.PenaltyList;
+import com.ruoyi.epms.domain.vo.PenaltyListVo;
 
 /**
  * 处罚类别明细Mapper接口
@@ -17,7 +18,7 @@ public interface PenaltyListMapper
      * @param id 处罚类别明细主键
      * @return 处罚类别明细
      */
-    public PenaltyList selectPenaltyListById(Long id);
+    public PenaltyListVo selectPenaltyListById(Long id);
 
     /**
      * 查询处罚类别明细列表
@@ -26,6 +27,14 @@ public interface PenaltyListMapper
      * @return 处罚类别明细集合
      */
     public List<PenaltyList> selectPenaltyListList(PenaltyList penaltyList);
+
+    /**
+     * 查询处罚类别明细列表
+     *
+     * @param penaltyList 处罚类别明细
+     * @return 处罚类别明细集合
+     */
+    public List<PenaltyListVo> selectPenaltyVoList(PenaltyList penaltyList);
 
     /**
      * 新增处罚类别明细
