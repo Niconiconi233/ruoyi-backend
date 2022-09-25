@@ -6,9 +6,9 @@ spring:
         druid:
             # 主库数据源
             master:
-                url: jdbc:mysql://localhost:3306/nkhg?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
-                username: root
-                password: my-123456a
+                url: jdbc:mysql://*.*.*.*:3306/nkhg?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+                username: YNC(dby8fVse/UjQhcpp7p6YC1RGMiy66KZZpqquvMtxUt9JmnT0xA75+Unv4kuwRopk)
+                password: YNC(zDUpIBuAnBfmcz+M2U3Lb1TA3F+FD7sWszZfCcwDLtgf0sciLWLhtaX4qZDf02p+)
             # 从库数据源
             slave:
                 # 从数据源开关/默认关闭
