@@ -1,6 +1,7 @@
 package com.ruoyi.web.controller.system;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,9 +46,11 @@ public class SysLoginController
     {
         AjaxResult ajax = AjaxResult.success();
         // 生成令牌
-        String token = loginService.login(loginBody.getUsername(), loginBody.getPassword(), loginBody.getCode(),
+        Map<String, String> info = loginService.login(loginBody.getUsername(), loginBody.getPassword(), loginBody.getCode(),
                 loginBody.getUuid());
-        ajax.put(Constants.TOKEN, token);
+        ajax.put(Constants.TOKEN, info.get(Constants.TOKEN));
+        ajax.put(Constants.SERVER_PUBLIC_KEY, info.get(Constants.SERVER_PUBLIC_KEY));
+        ajax.put(Constants.CLIENT_PRIVATE_KEY, info.get(Constants.CLIENT_PRIVATE_KEY));
         return ajax;
     }
 

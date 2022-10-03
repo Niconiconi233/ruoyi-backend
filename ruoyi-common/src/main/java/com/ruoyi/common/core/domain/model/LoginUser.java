@@ -67,6 +67,16 @@ public class LoginUser implements UserDetails
     private Set<String> permissions;
 
     /**
+     * 服务器私钥
+     */
+    private String serverPrivateKey;
+
+    /**
+     * 客户端公钥
+     */
+    private String clientPublicKey;
+
+    /**
      * 用户信息
      */
     private SysUser user;
@@ -256,6 +266,22 @@ public class LoginUser implements UserDetails
     public void setUser(SysUser user)
     {
         this.user = user;
+    }
+
+    public String getClientPublicKey() {
+        return clientPublicKey;
+    }
+
+    public String getServerPrivateKey() {
+        return serverPrivateKey;
+    }
+
+    public void setClientPublicKey(String clientPublicKey) {
+        this.clientPublicKey = clientPublicKey;
+    }
+
+    public void setServerPrivateKey(String serverPrivateKey) {
+        this.serverPrivateKey = serverPrivateKey;
     }
 
     @Override

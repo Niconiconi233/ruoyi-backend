@@ -1,12 +1,5 @@
 package com.ruoyi.framework.web.service;
 
-import javax.annotation.Resource;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Component;
 import com.ruoyi.common.constant.CacheConstants;
 import com.ruoyi.common.constant.Constants;
 import com.ruoyi.common.core.domain.entity.SysUser;
@@ -16,16 +9,24 @@ import com.ruoyi.common.exception.ServiceException;
 import com.ruoyi.common.exception.user.CaptchaException;
 import com.ruoyi.common.exception.user.CaptchaExpireException;
 import com.ruoyi.common.exception.user.UserPasswordNotMatchException;
-import com.ruoyi.common.utils.DateUtils;
-import com.ruoyi.common.utils.MessageUtils;
-import com.ruoyi.common.utils.ServletUtils;
-import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.common.utils.*;
 import com.ruoyi.common.utils.ip.IpUtils;
 import com.ruoyi.framework.manager.AsyncManager;
 import com.ruoyi.framework.manager.factory.AsyncFactory;
 import com.ruoyi.framework.security.context.AuthenticationContextHolder;
 import com.ruoyi.system.service.ISysConfigService;
 import com.ruoyi.system.service.ISysUserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
+import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 登录校验方法
@@ -59,7 +60,7 @@ public class SysLoginService
      * @param uuid 唯一标识
      * @return 结果
      */
-    public String login(String username, String password, String code, String uuid)
+    public Map<String, String> login(String username, String password, String code, String uuid)
     {
         boolean captchaEnabled = configService.selectCaptchaEnabled();
         // 验证码开关
@@ -92,8 +93,26 @@ public class SysLoginService
         AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_SUCCESS, MessageUtils.message("user.login.success")));
         LoginUser loginUser = (LoginUser) authentication.getPrincipal();
         recordLoginInfo(loginUser.getUserId());
+        //服务端加密
+        Map<String, Object> genKey1 = generateRSAKeys();
+        //客户端加密
+        Map<String, Object> genKey2 = generateRSAKeys();
+        String clientPcKey = null;
+        String clientPvKey = null;
+        try {
+            loginUser.setServerPrivateKey(RSAUtils.getPrivateKey(genKey1));
+            clientPcKey = RSAUtils.getPublicKey(genKey1);
+            loginUser.setClientPublicKey(RSAUtils.getPublicKey(genKey2));
+            clientPvKey = RSAUtils.getPrivateKey(genKey2);
+        }catch (Exception e) {
+            AsyncManager.me().execute(AsyncFactory.recordLogininfor("sys", Constants.LOGIN_FAIL, MessageUtils.message("user.generateRSAKeys.error")));
+        }
+        Map<String, String> res = new HashMap<>(3);
+        res.put(Constants.SERVER_PUBLIC_KEY, clientPcKey);
+        res.put(Constants.CLIENT_PRIVATE_KEY, clientPvKey);
         // 生成token
-        return tokenService.createToken(loginUser);
+        res.put(Constants.TOKEN, tokenService.createToken(loginUser));
+        return res;
     }
 
     /**
@@ -133,5 +152,15 @@ public class SysLoginService
         sysUser.setLoginIp(IpUtils.getIpAddr(ServletUtils.getRequest()));
         sysUser.setLoginDate(DateUtils.getNowDate());
         userService.updateUserProfile(sysUser);
+    }
+
+    private Map<String, Object> generateRSAKeys() {
+        try {
+            Map<String, Object> keyPair = RSAUtils.getKeyPair();
+            return keyPair;
+        }catch (Exception e) {
+            AsyncManager.me().execute(AsyncFactory.recordLogininfor("sys", Constants.LOGIN_FAIL, MessageUtils.message("user.generateRSAKeys.error")));
+            return null;
+        }
     }
 }

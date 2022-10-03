@@ -129,6 +129,26 @@ public class Constants
      */
     public static final String[] JOB_WHITELIST_STR = { "com.ruoyi" };
 
+    /*
+    客户端公钥
+     */
+    public static final String CLIENT_PUBLIC_KEY = "client_public_key";
+
+    /*
+    服务端私钥
+    */
+    public static final String SERVER_PRIVATE_KEY = "server_private_key";
+
+    /*
+    服务端公钥
+     */
+    public static final String SERVER_PUBLIC_KEY = "server_public_key";
+
+    /*
+    客户端私钥
+   */
+    public static final String CLIENT_PRIVATE_KEY = "client_private_key";
+
     /**
      * 定时任务违规的字符
      */
