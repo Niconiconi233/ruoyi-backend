@@ -3,6 +3,8 @@ package com.ruoyi.web.controller.system;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import com.ruoyi.common.core.domain.model.LoginUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -46,11 +48,11 @@ public class SysLoginController
     {
         AjaxResult ajax = AjaxResult.success();
         // 生成令牌
-        Map<String, String> info = loginService.login(loginBody.getUsername(), loginBody.getPassword(), loginBody.getCode(),
+        Map<String, String> res = loginService.login(loginBody.getUsername(), loginBody.getPassword(), loginBody.getCode(),
                 loginBody.getUuid());
-        ajax.put(Constants.TOKEN, info.get(Constants.TOKEN));
-        ajax.put(Constants.SERVER_PUBLIC_KEY, info.get(Constants.SERVER_PUBLIC_KEY));
-        ajax.put(Constants.CLIENT_PRIVATE_KEY, info.get(Constants.CLIENT_PRIVATE_KEY));
+        ajax.put(Constants.TOKEN, res.get(Constants.TOKEN));
+        ajax.put(Constants.SERVER_PUBLIC_KEY, res.get(Constants.SERVER_PUBLIC_KEY));
+        ajax.put(Constants.CLIENT_PRIVATE_KEY, res.get(Constants.CLIENT_PRIVATE_KEY));
         return ajax;
     }
 

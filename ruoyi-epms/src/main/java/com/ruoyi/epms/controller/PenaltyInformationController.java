@@ -1,10 +1,13 @@
 package com.ruoyi.epms.controller;
 
 import com.ruoyi.common.annotation.Log;
+import com.ruoyi.common.annotation.SecurityParameter;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
+import com.ruoyi.common.core.domain.model.LoginUser;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.enums.BusinessType;
+import com.ruoyi.common.utils.SecurityUtils;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.epms.domain.PenaltyInformation;
 import com.ruoyi.epms.domain.vo.PenaltyInformationListVo;
@@ -19,7 +22,7 @@ import java.util.List;
 
 /**
  * 处罚信息Controller
- * 
+ *
  * @author ruoyi
  * @date 2022-08-13
  */
@@ -36,9 +39,10 @@ public class PenaltyInformationController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('epms:punishment:list')")
     @GetMapping("/list")
-    public TableDataInfo list(PenaltyInformation penaltyInformation)
+    public TableDataInfo list( PenaltyInformation penaltyInformation)
     {
         startPage();
+        LoginUser loginUser = SecurityUtils.getLoginUser();
         List<PenaltyInformationListVo> list = penaltyInformationService.selectPenaltyInformationVoList(penaltyInformation);
         return getDataTable(list);
     }
@@ -69,6 +73,7 @@ public class PenaltyInformationController extends BaseController
     /**
      * 新增处罚信息
      */
+    @SecurityParameter
     @PreAuthorize("@ss.hasPermi('epms:punishment:add')")
     @Log(title = "处罚信息", businessType = BusinessType.INSERT)
     @PostMapping
@@ -113,5 +118,10 @@ public class PenaltyInformationController extends BaseController
         map.put("aa", "vv");
         JxlsUtils.exportExcel(new FileInputStream(file), response.getOutputStream(), map);*/
         penaltyInformationService.exportPenaltyInformation(penaltyInformation.getStaffId());
+    }
+
+
+    public void fuck() {
+
     }
 }

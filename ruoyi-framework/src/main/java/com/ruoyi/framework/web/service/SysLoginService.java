@@ -9,7 +9,10 @@ import com.ruoyi.common.exception.ServiceException;
 import com.ruoyi.common.exception.user.CaptchaException;
 import com.ruoyi.common.exception.user.CaptchaExpireException;
 import com.ruoyi.common.exception.user.UserPasswordNotMatchException;
-import com.ruoyi.common.utils.*;
+import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.common.utils.MessageUtils;
+import com.ruoyi.common.utils.ServletUtils;
+import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.ip.IpUtils;
 import com.ruoyi.framework.manager.AsyncManager;
 import com.ruoyi.framework.manager.factory.AsyncFactory;
@@ -24,7 +27,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -93,26 +95,13 @@ public class SysLoginService
         AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_SUCCESS, MessageUtils.message("user.login.success")));
         LoginUser loginUser = (LoginUser) authentication.getPrincipal();
         recordLoginInfo(loginUser.getUserId());
-        //服务端加密
-        Map<String, Object> genKey1 = generateRSAKeys();
-        //客户端加密
-        Map<String, Object> genKey2 = generateRSAKeys();
-        String clientPcKey = null;
-        String clientPvKey = null;
-        try {
-            loginUser.setServerPrivateKey(RSAUtils.getPrivateKey(genKey1));
-            clientPcKey = RSAUtils.getPublicKey(genKey1);
-            loginUser.setClientPublicKey(RSAUtils.getPublicKey(genKey2));
-            clientPvKey = RSAUtils.getPrivateKey(genKey2);
-        }catch (Exception e) {
-            AsyncManager.me().execute(AsyncFactory.recordLogininfor("sys", Constants.LOGIN_FAIL, MessageUtils.message("user.generateRSAKeys.error")));
-        }
-        Map<String, String> res = new HashMap<>(3);
-        res.put(Constants.SERVER_PUBLIC_KEY, clientPcKey);
-        res.put(Constants.CLIENT_PRIVATE_KEY, clientPvKey);
         // 生成token
-        res.put(Constants.TOKEN, tokenService.createToken(loginUser));
-        return res;
+        String token = tokenService.createToken(loginUser);
+        Map<String, String> ret = new HashMap<>(3);
+        ret.put(Constants.TOKEN, token);
+        ret.put(Constants.SERVER_PUBLIC_KEY, loginUser.getServerPublicKey());
+        ret.put(Constants.CLIENT_PRIVATE_KEY, loginUser.getClientPrivateKey());
+        return ret;
     }
 
     /**
@@ -152,15 +141,5 @@ public class SysLoginService
         sysUser.setLoginIp(IpUtils.getIpAddr(ServletUtils.getRequest()));
         sysUser.setLoginDate(DateUtils.getNowDate());
         userService.updateUserProfile(sysUser);
-    }
-
-    private Map<String, Object> generateRSAKeys() {
-        try {
-            Map<String, Object> keyPair = RSAUtils.getKeyPair();
-            return keyPair;
-        }catch (Exception e) {
-            AsyncManager.me().execute(AsyncFactory.recordLogininfor("sys", Constants.LOGIN_FAIL, MessageUtils.message("user.generateRSAKeys.error")));
-            return null;
-        }
     }
 }

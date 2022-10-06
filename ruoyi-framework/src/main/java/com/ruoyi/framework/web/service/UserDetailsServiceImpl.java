@@ -1,5 +1,6 @@
 package com.ruoyi.framework.web.service;
 
+import com.ruoyi.common.utils.RSAUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,8 @@ import com.ruoyi.common.enums.UserStatus;
 import com.ruoyi.common.exception.ServiceException;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.system.service.ISysUserService;
+
+import java.util.Map;
 
 /**
  * 用户验证处理
@@ -60,6 +63,14 @@ public class UserDetailsServiceImpl implements UserDetailsService
 
     public UserDetails createLoginUser(SysUser user)
     {
-        return new LoginUser(user.getUserId(), user.getDeptId(), user, permissionService.getMenuPermission(user));
+        LoginUser loginUser = new LoginUser(user.getUserId(), user.getDeptId(), user, permissionService.getMenuPermission(user));
+        try {
+            Map<String, Object> sk = RSAUtils.getKeyPair();
+            Map<String, Object> ck = RSAUtils.getKeyPair();
+            loginUser.setKeysOrNull(sk, ck);
+        }catch (Exception e) {
+            log.error("create loginUser's keys error");
+        }
+        return loginUser;
     }
 }

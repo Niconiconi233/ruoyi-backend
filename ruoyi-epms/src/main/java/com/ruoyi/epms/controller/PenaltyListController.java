@@ -3,6 +3,7 @@ package com.ruoyi.epms.controller;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ruoyi.common.annotation.SecurityParameter;
 import com.ruoyi.epms.domain.vo.PenaltyListVo;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,7 @@ public class PenaltyListController extends BaseController
     /**
      * 查询处罚类别明细列表
      */
+    @SecurityParameter()
     @PreAuthorize("@ss.hasPermi('epms:punishment:list')")
     @GetMapping("/list")
     public TableDataInfo list(PenaltyList penaltyList)

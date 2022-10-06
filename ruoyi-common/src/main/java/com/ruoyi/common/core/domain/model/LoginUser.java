@@ -1,7 +1,10 @@
 package com.ruoyi.common.core.domain.model;
 
 import java.util.Collection;
+import java.util.Map;
 import java.util.Set;
+
+import com.ruoyi.common.utils.RSAUtils;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import com.alibaba.fastjson2.annotation.JSONField;
@@ -72,9 +75,19 @@ public class LoginUser implements UserDetails
     private String serverPrivateKey;
 
     /**
+     * 服务器公钥
+     */
+    private String serverPublicKey;
+
+    /**
      * 客户端公钥
      */
     private String clientPublicKey;
+
+    /**
+     * 客户端私钥
+     */
+    private String clientPrivateKey;
 
     /**
      * 用户信息
@@ -127,6 +140,20 @@ public class LoginUser implements UserDetails
         this.deptId = deptId;
         this.user = user;
         this.permissions = permissions;
+    }
+
+    public void setKeysOrNull(Map<String, Object> sk, Map<String, Object> ck) {
+        try {
+            this.serverPublicKey = RSAUtils.getPublicKey(sk);
+            this.serverPrivateKey = RSAUtils.getPrivateKey(sk);
+            this.clientPublicKey = RSAUtils.getPublicKey(ck);
+            this.clientPrivateKey = RSAUtils.getPrivateKey(ck);
+        }catch (Exception e) {
+            this.serverPublicKey = null;
+            this.serverPrivateKey = null;
+            this.clientPublicKey = null;
+            this.clientPrivateKey = null;
+        }
     }
 
     @JSONField(serialize = false)
@@ -282,6 +309,22 @@ public class LoginUser implements UserDetails
 
     public void setServerPrivateKey(String serverPrivateKey) {
         this.serverPrivateKey = serverPrivateKey;
+    }
+
+    public String getClientPrivateKey() {
+        return clientPrivateKey;
+    }
+
+    public String getServerPublicKey() {
+        return serverPublicKey;
+    }
+
+    public void setClientPrivateKey(String clientPrivateKey) {
+        this.clientPrivateKey = clientPrivateKey;
+    }
+
+    public void setServerPublicKey(String serverPublicKey) {
+        this.serverPublicKey = serverPublicKey;
     }
 
     @Override

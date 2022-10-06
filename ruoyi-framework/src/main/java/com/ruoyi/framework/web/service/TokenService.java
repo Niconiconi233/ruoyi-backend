@@ -6,6 +6,7 @@ import java.util.concurrent.TimeUnit;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpInputMessage;
 import org.springframework.stereotype.Component;
 import com.ruoyi.common.constant.CacheConstants;
 import com.ruoyi.common.constant.Constants;
@@ -59,6 +60,26 @@ public class TokenService
     {
         // 获取请求携带的令牌
         String token = getToken(request);
+        if (StringUtils.isNotEmpty(token))
+        {
+            try
+            {
+                Claims claims = parseToken(token);
+                // 解析对应的权限以及用户信息
+                String uuid = (String) claims.get(Constants.LOGIN_USER_KEY);
+                String userKey = getTokenKey(uuid);
+                LoginUser user = redisCache.getCacheObject(userKey);
+                return user;
+            }
+            catch (Exception e)
+            {
+            }
+        }
+        return null;
+    }
+
+    public LoginUser getLoginUser(HttpInputMessage inputMessage) {
+        String token = getToken(inputMessage);
         if (StringUtils.isNotEmpty(token))
         {
             try
@@ -212,6 +233,16 @@ public class TokenService
     private String getToken(HttpServletRequest request)
     {
         String token = request.getHeader(header);
+        if (StringUtils.isNotEmpty(token) && token.startsWith(Constants.TOKEN_PREFIX))
+        {
+            token = token.replace(Constants.TOKEN_PREFIX, "");
+        }
+        return token;
+    }
+
+    private String getToken(HttpInputMessage inputMessage)
+    {
+        String token = inputMessage.getHeaders().getFirst(header);
         if (StringUtils.isNotEmpty(token) && token.startsWith(Constants.TOKEN_PREFIX))
         {
             token = token.replace(Constants.TOKEN_PREFIX, "");
